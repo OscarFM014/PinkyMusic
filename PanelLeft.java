@@ -3,6 +3,8 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -31,25 +33,40 @@ public class PanelLeft extends JPanel{
 	  this.setPreferredSize(new Dimension(300,600));
 	  this.setBackground(new Color(254,192,255));
 	  this.setLayout(null);
-	  
+	 
 	  Border blackline = BorderFactory.createLineBorder(Color.black);
 	  this.setBorder(blackline);
 	  this.logo = new ImageIcon("Pinky Music.png").getImage();
 	  
+	  //Button to show all Songs
 	  this.canciones = new JButton("Canciones");
 	  this.canciones.setFont(new Font("Arial",Font.PLAIN,14));
 	  this.canciones.setBackground(new Color(254,192,255));
 	  this.canciones.setBorder(null);
 	  this.canciones.setBounds(15,140,100,15);
+	  this.canciones.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//Pass an array with all the songs to mainPanel so it displays them all.
+			}
+		});
 	  this.add(this.canciones);
 	  
+	  
+	  //Button to music folder source
 	  this.carpeta = new JButton("Carpeta de música");
 	  this.carpeta.setFont(new Font("Arial",Font.PLAIN,14));
 	  this.carpeta.setBackground(new Color(254,192,255));
 	  this.carpeta.setBorder(null);
 	  this.carpeta.setBounds(15,170,150,15);
+	  this.carpeta.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//Show a File Chooser to select a folder to read the songs from.
+			}
+		});
 	  this.add(this.carpeta);
 	  
+	  
+	  //Ten buttons of play-lists. At start, they aren't shown, until user adds a play-list it appears, up to a limit of 10.
 	  this.buttonPlaylist = new JButton[10];
 	  for (int i = 0; i < buttonPlaylist.length; i++) {
 		this.buttonPlaylist[i] = new JButton("Dummy "+i);
@@ -57,8 +74,13 @@ public class PanelLeft extends JPanel{
 		this.buttonPlaylist[i].setBackground(new Color(254,192,255));
 		this.buttonPlaylist[i].setBorder(null);
 		this.buttonPlaylist[i].setBounds(-10,280+(30*i),150,15);
+		this.buttonPlaylist[i].addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//On click, pass an array with the songs of the play-list to mainPanel
+			}
+		});
 		this.add(this.buttonPlaylist[i]);
-	}
+	  }
 
   }
   
