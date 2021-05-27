@@ -1,6 +1,7 @@
+import java.sql.Time;
 import java.util.Date;
 import java.awt.Image;
-public class Cancion{
+/**public class Cancion{
   private String rutaArchivo;
   private final String TITULO;
   private final String ARTISTA;
@@ -22,4 +23,4 @@ public class Cancion{
 
   }
 
-}
+}**/

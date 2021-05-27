@@ -53,7 +53,7 @@ public class PanelLeft extends JPanel{
 	  
 	  
 	  //Button to music folder source
-	  this.carpeta = new JButton("Carpeta de música");
+	  this.carpeta = new JButton("Carpeta de musica");
 	  this.carpeta.setFont(new Font("Arial",Font.PLAIN,14));
 	  this.carpeta.setBackground(new Color(254,192,255));
 	  this.carpeta.setBorder(null);
@@ -88,7 +88,7 @@ public class PanelLeft extends JPanel{
 		super.paintComponent(g);	
 		g.drawImage(this.logo,20,10,250,65,this);
 		g.setFont(new Font("Arial",Font.PLAIN , 14));
-		g.drawString("MÍ MÚSICA", 35, 115);
+		g.drawString("Mi MUSICA", 35, 115);
 		g.drawString("PLAYLISTS", 35, 250);
 		
 	}
