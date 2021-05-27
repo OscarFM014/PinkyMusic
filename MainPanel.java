@@ -92,7 +92,7 @@ public class MainPanel extends JPanel{
 	  
 	  //Button to play current play-list from start.
 	  this.botonPlay = new JButton();
-	  Icon playIcon = new ImageIcon("botonPlay.PNG");
+	  Icon playIcon = new ImageIcon("Images/botonPlay.PNG");
 	  this.botonPlay.setIcon(playIcon);
 	  this.botonPlay.setBorder(null);
 	  this.botonPlay.setBounds(50,120,100,100);
@@ -116,7 +116,7 @@ public class MainPanel extends JPanel{
 	  this.add(this.tiempoTotal);
 	  
 	  //Button of title.
-	  this.titulo = new JButton("TÍTULO");
+	  this.titulo = new JButton("TiTULO");
 	  this.titulo.setFont(new Font("Arial",Font.PLAIN,14));
 	  this.titulo.setBackground(new Color(254,201,255));
 	  this.titulo.setBorder(null);
@@ -144,7 +144,7 @@ public class MainPanel extends JPanel{
 	  this.add(this.artista);
 	  
 	  //Button of album.
-	  this.album = new JButton("ÁLBUM");
+	  this.album = new JButton("ALBUM");
 	  this.album.setFont(new Font("Arial",Font.PLAIN,14));
 	  this.album.setBackground(new Color(254,201,255));
 	  this.album.setBorder(null);
@@ -172,7 +172,7 @@ public class MainPanel extends JPanel{
 	  this.add(this.fecha);
 	  
 	  //Button of duration
-	  this.duracion = new JButton("DURACIÓN");
+	  this.duracion = new JButton("DURACION");
 	  this.duracion.setFont(new Font("Arial",Font.PLAIN,14));
 	  this.duracion.setBackground(new Color(254,201,255));
 	  this.duracion.setBorder(null);

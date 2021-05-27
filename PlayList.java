@@ -1,4 +1,4 @@
-public class PlayList{
+/**public class PlayList{
   private String nombre;
   private LinkedList<Cancion> listaCanciones;
   private int duracionTotal;
@@ -16,4 +16,4 @@ public class PlayList{
   public void agregarCancion(Cancion song){
     
   }
-}
+}**/

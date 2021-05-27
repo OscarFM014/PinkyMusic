@@ -87,7 +87,7 @@ public class BarraReproduccion extends JPanel{
 		
 		//Button to play current song.
 		this.botonPlay = new JButton();
-		Icon playIcon = new ImageIcon("playMini.PNG");
+		Icon playIcon = new ImageIcon("Images/playMini.PNG");
 		this.botonPlay.setIcon(playIcon);
 		this.botonPlay.setBorder(null);
 		this.botonPlay.setBounds(655,30,40,40);
@@ -101,7 +101,7 @@ public class BarraReproduccion extends JPanel{
 		
 		//Button to play next song.
 		this.avanzarBoton = new JButton();
-		playIcon = new ImageIcon("avanzarBoton.PNG");
+		playIcon = new ImageIcon("Images/avanzarBoton.PNG");
 		this.avanzarBoton.setIcon(playIcon);
 		this.avanzarBoton.setBorder(null);
 		this.avanzarBoton.setBounds(700,35,28,28);
@@ -115,7 +115,7 @@ public class BarraReproduccion extends JPanel{
 		
 		//Button to play previous song.
 		this.retrocederBoton = new JButton();
-		playIcon = new ImageIcon("retrocederBoton.PNG");
+		playIcon = new ImageIcon("Images/retrocederBoton.PNG");
 		this.retrocederBoton.setIcon(playIcon);
 		this.retrocederBoton.setBorder(null);
 		this.retrocederBoton.setBounds(621,34,28,28);
@@ -129,7 +129,7 @@ public class BarraReproduccion extends JPanel{
 		
 		//Button to loop current song.
 		this.loopBoton = new JButton();
-		playIcon = new ImageIcon("loopBoton.PNG");
+		playIcon = new ImageIcon("Images/loopBoton.PNG");
 		this.loopBoton.setIcon(playIcon);
 		this.loopBoton.setBorder(null);
 		this.loopBoton.setBounds(540,34,28,28);
@@ -143,7 +143,7 @@ public class BarraReproduccion extends JPanel{
 		
 		//Button to play random songs.
 		this.randomBoton = new JButton();
-		playIcon = new ImageIcon("randomBoton.PNG");
+		playIcon = new ImageIcon("Images/randomBoton.PNG");
 		this.randomBoton.setIcon(playIcon);
 		this.randomBoton.setBorder(null);
 		this.randomBoton.setBounds(480,37,28,23);
@@ -157,7 +157,7 @@ public class BarraReproduccion extends JPanel{
 		
 		//Button to add a new Play-list
 		this.newListBoton = new JButton();
-		playIcon = new ImageIcon("newListBoton.PNG");
+		playIcon = new ImageIcon("Images/newListBoton.PNG");
 		this.newListBoton.setIcon(playIcon);
 		this.newListBoton.setBorder(null);
 		this.newListBoton.setBounds(781,37,28,23);
@@ -171,7 +171,7 @@ public class BarraReproduccion extends JPanel{
 		
 		//Button to open reproduction queue.
 		this.colaBoton = new JButton();
-		playIcon = new ImageIcon("colaBoton.PNG");
+		playIcon = new ImageIcon("Images/colaBoton.PNG");
 		this.colaBoton.setIcon(playIcon);
 		this.colaBoton.setBorder(null);
 		this.colaBoton.setBounds(841,39,28,23);
@@ -225,12 +225,12 @@ public class BarraReproduccion extends JPanel{
 	
 	public void paintComponent(Graphics g) { //Cuando dibujemos en un panel, usar paintComponent
 		super.paintComponent(g);	
-		Image speedIcon = new ImageIcon("speedIcon.PNG").getImage();
+		Image speedIcon = new ImageIcon("Images/speedIcon.PNG").getImage();
 		g.drawImage(speedIcon,1065,10,27,27,this);
-		Image volumeIcon = new ImageIcon("volumeBoton.PNG").getImage();
+		Image volumeIcon = new ImageIcon("Images/volumeBoton.PNG").getImage();
 		g.drawImage(volumeIcon,1065,65,27,27,this);
 		
-		Image ejemploIcon = new ImageIcon("imagenEjemplo.PNG").getImage();
+		Image ejemploIcon = new ImageIcon("Images/imagenEjemplo.PNG").getImage();
 		g.drawImage(ejemploIcon,10,10,90,90,this);
 		
 	}
