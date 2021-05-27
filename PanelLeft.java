@@ -6,11 +6,7 @@ import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
+import javax.swing.*;
 import javax.swing.border.Border;
 
 public class PanelLeft extends JPanel{
@@ -22,6 +18,7 @@ public class PanelLeft extends JPanel{
   public Image logo;
   public JButton canciones,carpeta;
   public JButton[] buttonPlaylist;
+  public JFileChooser fileChooser;
 	
 	
   private void seleccionarCarpeta(){
@@ -88,7 +85,7 @@ public class PanelLeft extends JPanel{
 		super.paintComponent(g);	
 		g.drawImage(this.logo,20,10,250,65,this);
 		g.setFont(new Font("Arial",Font.PLAIN , 14));
-		g.drawString("Mi MUSICA", 35, 115);
+		g.drawString("MI MUSICA", 35, 115);
 		g.drawString("PLAYLISTS", 35, 250);
 		
 	}

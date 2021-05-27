@@ -116,7 +116,7 @@ public class MainPanel extends JPanel{
 	  this.add(this.tiempoTotal);
 	  
 	  //Button of title.
-	  this.titulo = new JButton("TiTULO");
+	  this.titulo = new JButton("TITULO");
 	  this.titulo.setFont(new Font("Arial",Font.PLAIN,14));
 	  this.titulo.setBackground(new Color(254,201,255));
 	  this.titulo.setBorder(null);
