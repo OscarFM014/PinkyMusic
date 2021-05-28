@@ -45,7 +45,18 @@ public class PanelLeft extends JPanel{
 	  this.canciones.setBounds(15,140,100,15);
 	  this.canciones.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-			
+				ArrayList<Cancion> songs = new ArrayList<Cancion>(); 
+				Cancion song1 = new Cancion("./songs/AlanWalkerStyle-SavageLove(NewSong2020).mp3", "Savage Love (NewSong2020) ", "Alan Walker", "NoCopyrightSounds", "05/08/19", 224L, new ImageIcon("./Images/Savagelove.PNG").getImage());
+				Cancion song2 = new Cancion("./songs/ChillDay.mp3", "Chill Day", "LAKEY INSPIRED", "Unknown", "02/09/15", 186L, new ImageIcon("./Images/ChillDay.PNG").getImage());
+				Cancion song3 = new Cancion("./songs/Cloudsurfing.mp3", "Cloudsurfing", "Unknown", "18/12/2014", 220L,  new ImageIcon("./Images/Cloudsurfing.PNG").getImage());
+				Cancion song4 = new Cancion("./songs/DrewsThatDude.mp3", "Chill", "Drews That Dude", "Trey Songs", "01/10/2010",  272L,  new ImageIcon("./Images/Chill.PNG").getImage());
+				Cancion song5 = new Cancion("./songs/Emotional(VirtualRiotRemix).mp3", "Emotional", "Flux Pavillion & Matthew Koma", "Virtual Riot", "16/12/2013", 268L,  new ImageIcon("./Images/Emotional.PNG").getImage() );
+				Cancion song6 = new Cancion("./songs/INMYHEART(ORIGINALMIX)-DJDARLEXHOUSE.mp3", "In My Heart", "Darlex House", "NCM", "18/12/2016", 195L,  new ImageIcon("./Images/InMyHeart.PNG").getImage());
+				Cancion song7 = new Cancion("./songs/MarkTarmonea-Clocks(RadioEdit).mp3", "Clocks", "Mark Tarmonea", "Bull In A China Shop", "25/08/2013", 206L,  new ImageIcon("./Images/Clocks.PNG").getImage());
+				Cancion song8 = new Cancion("./songs/MÖWE-BirdsFlyingHigh.mp3", "Birds Flying High", "MÖWE", "Unknown", "06/01/2009" , 309L,  new ImageIcon("./Images/BirdsFlyHigh.PNG").getImage() );
+				Cancion song9 = new Cancion("./songs/SKYJAXX-ThinkAboutIt.mp3", "THNK IT THRU", "yxsmay", "Unknown","05/09/17", 107L,  new ImageIcon("./Images/THNKTHROUGH.PNG").getImage());
+				Cancion song10 = new Cancion("./SoLongft.BBDiamond(OriginalMix)-JerryFolk.mp3", "So Long", "Jerry Folk ft. BB Diamond", "Unknown", "10/12/2014", 224L,  new ImageIcon("./Images/SoLong.PNG").getImage());
+
 			}
 		});
 	  this.add(this.canciones);
