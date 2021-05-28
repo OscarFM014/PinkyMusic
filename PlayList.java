@@ -10,12 +10,12 @@ import java.util.*;
 public class PlayList{
   private String nombre;
   private ArrayList<Cancion> listaCanciones;
-  private int duracionTotal;
+  private long duracionTotal;
 
-  public PlayList(String nombre, ArrayList<Cancion> listaCanciones, int duracionTotal){
+  public PlayList(String nombre, ArrayList<Cancion> listaCanciones){
     this.nombre = nombre;
     this.listaCanciones = listaCanciones;
-    this.duracionTotal = duracionTotal;
+    this.duracionTotal = getTotalTimePlaylist(listaCanciones);
   }
 
   public void eliminarCancion(Cancion song){
@@ -27,6 +27,13 @@ public class PlayList{
     
   }
   
+  private long getTotalTimePlaylist(ArrayList<Cancion> listaCanciones) {
+	  long result = 0;
+	  for (int i = 0; i < listaCanciones.size(); i++) {
+		  result = result + listaCanciones.get(i).duracion;
+	  }
+	  return result;
+  }
   
   public void sufflePlaylist() {
 	  Collections.shuffle(this.listaCanciones);
