@@ -36,7 +36,7 @@ public class Cancion{
     }
     public Cancion(){}
 
-    public Cancion(String ruta, String titulo, String artista, String album, Date fecha, long duracion){
+    public Cancion(String ruta, String titulo, String artista, String album, Date fecha, long , Image foto){
         this.titulo = titulo;
         this.artista = artista;
         this.album = album;
@@ -44,6 +44,7 @@ public class Cancion{
         this.duracion = duracion;
         this.volumen = 50;
         this.rutaArchivo = ruta;
+        this.foto = foto;
     }
 
     public String getTitulo(){
