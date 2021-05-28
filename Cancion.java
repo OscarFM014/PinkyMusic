@@ -20,13 +20,13 @@ public class Cancion{
   FileInputStream fileInputStream;
   BufferedInputStream bufferedInputStream;
   public String rutaArchivo;
-  private String titulo;
-  private String artista;
-  private String album;
-  private Date fecha;
-  private long duracion;
+  public String titulo;
+  public String artista;
+  public String album;
+  public String fecha;
+  public long duracion;
   private double velocidad;
-  private Image foto;
+  public Image foto;
   private double volumen;
 
     public Cancion(String rutaArchivo) {
@@ -36,7 +36,7 @@ public class Cancion{
     }
     public Cancion(){}
 
-    public Cancion(String ruta, String titulo, String artista, String album, Date fecha, long duracion, Image imagen){
+    public Cancion(String ruta, String titulo, String artista, String album, String fecha, long duracion, Image imagen){
         this.titulo = titulo;
         this.artista = artista;
         this.album = album;
