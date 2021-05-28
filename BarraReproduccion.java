@@ -8,7 +8,8 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.ArrayList;
 import javax.sound.sampled.*;
-
+import java.util.Timer;
+import java.util.TimerTask;
 import javax.swing.BorderFactory;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -34,11 +35,14 @@ public class BarraReproduccion extends JPanel{
 	public JLabel titlePlaying,
 				  artistPlaying;
 	public Image albumImage;
-  private Cancion cancionActual = new Cancion("songs/prueba2.mp3");
+
   private JButton pause;
   public MainPanel panelMain;
   private ArrayList<Cancion> queue;
-  int i = 0;
+  private Cancion cancionActual;
+
+
+	int i = 0;
 
   //private void pause(){
 
@@ -46,6 +50,7 @@ public class BarraReproduccion extends JPanel{
   private void play(){
 
   }
+
 
 
   /**private void avanzar(){
@@ -62,9 +67,9 @@ public class BarraReproduccion extends JPanel{
   			Port outline = (Port) AudioSystem.getLine(source);
   			outline.open();
   			FloatControl volumeControl = (FloatControl) outline.getControl(FloatControl.Type.VOLUME);
-  			System.out.println("         VOLUME: " + volumeControl.getValue());
+  			//System.out.println("         VOLUME: " + volumeControl.getValue());
 			volumeControl.setValue(volumen/100);
-  			System.out.println("    new volume: " + volumen/100);
+  			//System.out.println("    new volume: " + volumen/100);
   			if(volumeControl.getValue() < 0.08f){
   				volumeControl.setValue(0);
 			}
@@ -110,7 +115,10 @@ public class BarraReproduccion extends JPanel{
 		this.setLayout(null);
 		this.panelMain = panel;
 		queue = panelMain.canciones;
-		
+		//String ruta, String titulo, String artista, String album, String fecha, long duracion, Image imagen
+		Image imagen = new ImageIcon("Images/InMyHearth.PNG").getImage();
+		queue.set(0,new Cancion("songs/prueba.mp3","Happy song", "The new Era","The begining", "2021-02-12",120,imagen));
+		cancionActual = queue.get(0);
 		Border blackline = BorderFactory.createLineBorder(Color.black);
 		this.setBorder(blackline);
 		
@@ -128,6 +136,9 @@ public class BarraReproduccion extends JPanel{
 				if(cancionActual.playing){
 					botonPlay.setIcon(new ImageIcon("Images/playMini.PNG"));
 					cancionActual.pausar();
+					titlePlaying.setText(cancionActual.titulo);
+					artistPlaying.setText(cancionActual.artista);
+					repaint();
 				}else{
 
 					cancionActual = queue.get(i);
@@ -137,6 +148,9 @@ public class BarraReproduccion extends JPanel{
 					botonPlay.setIcon(new ImageIcon("Images/pauseIcon.PNG"));
 				}
 				play();
+				titlePlaying.setText(cancionActual.titulo);
+				artistPlaying.setText(cancionActual.artista);
+				repaint();
 
 			}
 		});
@@ -152,12 +166,18 @@ public class BarraReproduccion extends JPanel{
 		this.avanzarBoton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				//Play next song.
-				if(i < queue.size()){
-					System.out.println(i);
+				if(i < queue.size()-1){
+					//System.out.println(i);
 					cancionActual.stop();
-					cancionActual = new Cancion(queue.get(i+1).rutaArchivo);
+					//String ruta, String titulo, String artista, String album, String fecha, long duracion, Image imagen
+					cancionActual = new Cancion(queue.get(i+1).rutaArchivo,queue.get(i+1).titulo,queue.get(i+1).artista,queue.get(i+1).album,queue.get(i+1).fecha,queue.get(i+1).duracion,queue.get(i+1).foto);
 					cancionActual.reproducir();
+
 					i++;
+					titlePlaying.setText(cancionActual.titulo);
+					artistPlaying.setText(cancionActual.artista);
+					repaint();
+
 				}
 
 			}
@@ -179,8 +199,11 @@ public class BarraReproduccion extends JPanel{
 				System.out.println("CANCION PREVIA");
 				System.out.println(i);
 				cancionActual.stop();
-				cancionActual = new Cancion(queue.get(i).rutaArchivo);
+				cancionActual = new Cancion(queue.get(i).rutaArchivo,queue.get(i).titulo,queue.get(i).artista,queue.get(i).album,queue.get(i).fecha,queue.get(i).duracion,queue.get(i).foto);
 				cancionActual.reproducir();
+				titlePlaying.setText(cancionActual.titulo);
+				artistPlaying.setText(cancionActual.artista);
+				repaint();
 			}
 
 
@@ -207,6 +230,7 @@ public class BarraReproduccion extends JPanel{
 			}
 		});
 		this.add(this.loopBoton);
+		repaint();
 		
 		
 		//Button to play random songs.
@@ -223,8 +247,11 @@ public class BarraReproduccion extends JPanel{
 					System.out.println("CANCION ALEATORIA");
 					System.out.println(i);
 					cancionActual.stop();
-					cancionActual = new Cancion(queue.get(i).rutaArchivo);
+					cancionActual = new Cancion(queue.get(i).rutaArchivo,queue.get(i).titulo,queue.get(i).artista,queue.get(i).album,queue.get(i).fecha,queue.get(i).duracion,queue.get(i).foto);
 					cancionActual.reproducir();
+					titlePlaying.setText(cancionActual.titulo);
+					artistPlaying.setText(cancionActual.artista);
+					repaint();
 				}
 			}
 		});
@@ -279,7 +306,7 @@ public class BarraReproduccion extends JPanel{
 			@Override
 			public void stateChanged(ChangeEvent e) {
 				float volumen =volumeSlider.getValue();
-				System.out.println(volumen);
+				//System.out.println(volumen);
 				cambiarVolumen(volumen);
 			}
 		});
@@ -287,22 +314,34 @@ public class BarraReproduccion extends JPanel{
 		
 		
 		//Slider of current song reproduction.
-		this.playingSlider = new JSlider(JSlider.HORIZONTAL,0,100,0);
+		/**this.playingSlider = new JSlider(JSlider.HORIZONTAL,0,100,0);
 		this.playingSlider.setBackground(new Color(253,153,255));
 		this.playingSlider.setBounds(426,70,500,30);
-		this.add(this.playingSlider);
+		this.playingSlider.addChangeListener(new ChangeListener() {
+			@Override
+			public void stateChanged(ChangeEvent e) {
+				while(cancionActual.playing){
+					int value = (int)(cancionActual.duracion - cancionActual.pause/playingSlider.getMaximum());
+					playingSlider.setValue(value);
+					System.out.println(value);
+				}
+			}
+		});
+		this.add(this.playingSlider);**/
 
 
-		
-		//JLabel of title of current song. Method -> setTitleCurrent(String)
-		this.titlePlaying = new JLabel("Amor Prohibido");
+
+
+				//JLabel of title of current song. Method -> setTitleCurrent(String)
+		this.titlePlaying = new JLabel("Titulo");
 		this.titlePlaying.setBackground(new Color(253,153,255));
 		this.titlePlaying.setFont(new Font("Arial",Font.BOLD,14));
 		this.titlePlaying.setBounds(110,20,250,30);
 		this.add(this.titlePlaying);
+
 		
 		//JLabel of artist of current song. Method -> setArtistCurrent(String
-		this.artistPlaying = new JLabel("Selena");
+		this.artistPlaying = new JLabel("ARTISTA");
 		this.artistPlaying.setBackground(new Color(253,153,255));
 		this.artistPlaying.setFont(new Font("Arial",Font.BOLD,11));
 		this.artistPlaying.setBounds(110,40,250,30);
@@ -316,9 +355,10 @@ public class BarraReproduccion extends JPanel{
 		Image volumeIcon = new ImageIcon("Images/volumeBoton.PNG").getImage();
 		g.drawImage(volumeIcon,1065,65,27,27,this);
 		
-		Image ejemploIcon = new ImageIcon("Images/imagenEjemplo.PNG").getImage();
+		Image ejemploIcon = new ImageIcon("Images/InMyHeart.PNG").getImage();
 		g.drawImage(ejemploIcon,10,10,90,90,this);
 		
 	}
+	//para ordenar primero ordeno el arraylist y luego llamo a pintar cancion
 
 }

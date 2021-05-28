@@ -35,7 +35,7 @@ public class PanelLeft extends JPanel{
 	 
 	  Border blackline = BorderFactory.createLineBorder(Color.black);
 	  this.setBorder(blackline);
-	  this.logo = new ImageIcon("Pinky Music.png").getImage();
+	  this.logo = new ImageIcon("Images/Pinky Music.png").getImage();
 	  
 	  //Button to show all Songs
 	  this.canciones = new JButton("Canciones");
@@ -89,12 +89,15 @@ public class PanelLeft extends JPanel{
 	  
 	  //Ten buttons of play-lists. At start, they aren't shown, until user adds a play-list it appears, up to a limit of 10.
 	  this.buttonPlaylist = new JButton[10];
+	  String[] nombres = {"Fiesta", "Para estudiar", "Lo-fi", "Focus", "Roadtrip", "Para reprobar", "Para no reprobar", "De pana", "Reggaeton", "Hip-hop"};
 	  for (int i = 0; i < buttonPlaylist.length; i++) {
-		this.buttonPlaylist[i] = new JButton("Dummy "+i);
+
+		this.buttonPlaylist[i] = new JButton(nombres[i]);
 		this.buttonPlaylist[i].setFont(new Font("Arial",Font.PLAIN,14));
 		this.buttonPlaylist[i].setBackground(new Color(254,192,255));
 		this.buttonPlaylist[i].setBorder(null);
-		this.buttonPlaylist[i].setBounds(-10,280+(30*i),150,15);
+		this.buttonPlaylist[i].setBounds(40,280+(30*i),150,15);
+		this.buttonPlaylist[i].setHorizontalAlignment(SwingConstants.LEFT);
 		this.buttonPlaylist[i].addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				//On click, pass an array with the songs of the play-list to mainPanel

@@ -45,6 +45,8 @@ public class Cancion{
         this.volumen = 50;
         this.rutaArchivo = ruta;
         this.foto = imagen;
+        playThread = new Thread(runnablePlay);
+        resumeThread = new Thread(runnableResume);
     }
 
     public String getTitulo(){
