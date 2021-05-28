@@ -6,22 +6,20 @@ import javazoom.jl.player.Player;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.*;
 import java.util.Date;
 
 public class Cancion{
   boolean playing;
   boolean pausado = false;
-  long pause;
+  public long pause;
   boolean repetir = false;
   Player player;
   Thread playThread;
   Thread resumeThread;
   FileInputStream fileInputStream;
   BufferedInputStream bufferedInputStream;
-  private String rutaArchivo;
+  public String rutaArchivo;
   private String titulo;
   private String artista;
   private String album;
@@ -38,13 +36,14 @@ public class Cancion{
     }
     public Cancion(){}
 
-    public Cancion(String titulo, String artista, String album, Date fecha, long duracion){
+    public Cancion(String ruta, String titulo, String artista, String album, Date fecha, long duracion){
         this.titulo = titulo;
         this.artista = artista;
         this.album = album;
         this.fecha = fecha;
         this.duracion = duracion;
         this.volumen = 50;
+        this.rutaArchivo = ruta;
     }
 
     public String getTitulo(){
@@ -64,6 +63,8 @@ public class Cancion{
     }
   public void stop(){
         if(player != null){
+            pausado = true;
+            playing = false;
             player.close();
         }
   }
@@ -81,14 +82,23 @@ public class Cancion{
      }
   }
   public void repetir(){
+        System.out.println("REPETICION ACTIVADA");
         repetir = true;
-        while(repetir){
-            runnablePlay.run();
+        int i = 0;
+        while(i < 1){
+            if(playThread.getState() == Thread.State.TERMINATED || resumeThread.getState() == Thread.State.TERMINATED){
+                playThread = new Thread(runnablePlay);
+                resumeThread = new Thread(runnableResume);
+                this.reproducir();
+                i++;
+            }
         }
-
   }
   public void noRepetir(){
         this.repetir = false;
+        System.out.println("REPETICION DESACTIVADA");
+        this.playThread.interrupt();
+
   }
   public void modificarVelocidad(double nuevaVelocidad){
 
@@ -123,7 +133,7 @@ public class Cancion{
             e.printStackTrace();
         }
     }
-    };
+    };/**
   public static void main(String[] args) throws InterruptedException {
 
         String filename = "songs/prueba2.mp3";
@@ -132,15 +142,15 @@ public class Cancion{
         for(int i = 0; i < 10000000; i++){
             System.out.println(i);
         }
-        System.out.println("PAUSE");
-        song.pausar();
-      for(int i = 0; i < 100000; i++){
+        //System.out.println("PAUSE");
+        song.repetir();
+      for(int i = 0; i < 10000000; i++){
           System.out.println(i);
       }
-      song.repetir();
+      song.repetir = false;
 
 
 
-  }
+  }**/
 
 }
