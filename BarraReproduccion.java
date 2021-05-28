@@ -5,7 +5,11 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
+import java.io.IOException;
+import java.util.ArrayList;
+import javax.sound.sampled.*;
+import java.util.Timer;
+import java.util.TimerTask;
 import javax.swing.BorderFactory;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -14,6 +18,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.border.Border;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 public class BarraReproduccion extends JPanel{
 	public JButton botonPlay,
@@ -29,25 +35,51 @@ public class BarraReproduccion extends JPanel{
 	public JLabel titlePlaying,
 				  artistPlaying;
 	public Image albumImage;
-  /*private Cancion cancionActual;
+
   private JButton pause;
-  private MainPanel panelMain;
+  public MainPanel panelMain;
+  private ArrayList<Cancion> queue;
+  private Cancion cancionActual;
 
-  private void pause(){
 
-  }
+	int i = 0;
+
+  //private void pause(){
+
+  //}
   private void play(){
 
   }
-  private void avanzar(){
+
+
+
+  /**private void avanzar(){
 
   }
   private void retroceder(){
 
   }
-  private void cambiarVolumen(){
+   **/
+  private void cambiarVolumen(float volumen){
+  	Port.Info source = Port.Info.SPEAKER;
+  	if(AudioSystem.isLineSupported(source)){
+  		try{
+  			Port outline = (Port) AudioSystem.getLine(source);
+  			outline.open();
+  			FloatControl volumeControl = (FloatControl) outline.getControl(FloatControl.Type.VOLUME);
+  			//System.out.println("         VOLUME: " + volumeControl.getValue());
+			volumeControl.setValue(volumen/100);
+  			//System.out.println("    new volume: " + volumen/100);
+  			if(volumeControl.getValue() < 0.08f){
+  				volumeControl.setValue(0);
+			}
 
-  }
+		} catch (LineUnavailableException e) {
+			e.printStackTrace();
+		}
+	}
+
+  }/**
   private void repetir(){
 
   }
@@ -60,10 +92,11 @@ public class BarraReproduccion extends JPanel{
 
   private void displayQueue(){
 
-  }
-  private void cambiarVelocidad(){
+  }**/
+  /**private void cambiarVelocidad(){
     
-  }*/
+  }**/
+
 	public void setTitleCurrent(String titleSong) {
 		this.titlePlaying.setText(titleSong);
 	}
@@ -75,17 +108,23 @@ public class BarraReproduccion extends JPanel{
 	}
 	
   //***************PARTE GRAFICA*************+
-	public BarraReproduccion() {
+	public BarraReproduccion(MainPanel panel) throws IOException {
 		super();
 		this.setPreferredSize(new Dimension(950,105));
 		this.setBackground(new Color(253,153,255));
 		this.setLayout(null);
-		
+		this.panelMain = panel;
+		queue = panelMain.canciones;
+		//String ruta, String titulo, String artista, String album, String fecha, long duracion, Image imagen
+		Image imagen = new ImageIcon("Images/InMyHearth.PNG").getImage();
+		queue.set(0,new Cancion("songs/prueba.mp3","Happy song", "The new Era","The begining", "2021-02-12",120,imagen));
+		cancionActual = queue.get(0);
 		Border blackline = BorderFactory.createLineBorder(Color.black);
 		this.setBorder(blackline);
 		
 		
 		//Button to play current song.
+
 		this.botonPlay = new JButton();
 		Icon playIcon = new ImageIcon("Images/playMini.PNG");
 		this.botonPlay.setIcon(playIcon);
@@ -93,7 +132,26 @@ public class BarraReproduccion extends JPanel{
 		this.botonPlay.setBounds(655,30,40,40);
 		this.botonPlay.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//Play current song.
+
+				if(cancionActual.playing){
+					botonPlay.setIcon(new ImageIcon("Images/playMini.PNG"));
+					cancionActual.pausar();
+					titlePlaying.setText(cancionActual.titulo);
+					artistPlaying.setText(cancionActual.artista);
+					repaint();
+				}else{
+
+					cancionActual = queue.get(i);
+					cancionActual.reproducir();
+					botonPlay.setBackground(new Color(253,153,255));
+					botonPlay.setBorder(null);
+					botonPlay.setIcon(new ImageIcon("Images/pauseIcon.PNG"));
+				}
+				play();
+				titlePlaying.setText(cancionActual.titulo);
+				artistPlaying.setText(cancionActual.artista);
+				repaint();
+
 			}
 		});
 		this.add(this.botonPlay);
@@ -108,10 +166,25 @@ public class BarraReproduccion extends JPanel{
 		this.avanzarBoton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				//Play next song.
+				if(i < queue.size()-1){
+					//System.out.println(i);
+					cancionActual.stop();
+					//String ruta, String titulo, String artista, String album, String fecha, long duracion, Image imagen
+					cancionActual = new Cancion(queue.get(i+1).rutaArchivo,queue.get(i+1).titulo,queue.get(i+1).artista,queue.get(i+1).album,queue.get(i+1).fecha,queue.get(i+1).duracion,queue.get(i+1).foto);
+					cancionActual.reproducir();
+
+					i++;
+					titlePlaying.setText(cancionActual.titulo);
+					artistPlaying.setText(cancionActual.artista);
+					repaint();
+
+				}
+
 			}
 		});
 		this.add(this.avanzarBoton);
-		
+
+
 		
 		//Button to play previous song.
 		this.retrocederBoton = new JButton();
@@ -119,10 +192,22 @@ public class BarraReproduccion extends JPanel{
 		this.retrocederBoton.setIcon(playIcon);
 		this.retrocederBoton.setBorder(null);
 		this.retrocederBoton.setBounds(621,34,28,28);
-		this.retrocederBoton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				//Play previous song.
+		this.retrocederBoton.addActionListener(e -> {
+			//Play previous song.
+			if(i > 0){
+				i--;
+				System.out.println("CANCION PREVIA");
+				System.out.println(i);
+				cancionActual.stop();
+				cancionActual = new Cancion(queue.get(i).rutaArchivo,queue.get(i).titulo,queue.get(i).artista,queue.get(i).album,queue.get(i).fecha,queue.get(i).duracion,queue.get(i).foto);
+				cancionActual.reproducir();
+				titlePlaying.setText(cancionActual.titulo);
+				artistPlaying.setText(cancionActual.artista);
+				repaint();
 			}
+
+
+
 		});
 		this.add(this.retrocederBoton);
 		
@@ -136,9 +221,16 @@ public class BarraReproduccion extends JPanel{
 		this.loopBoton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				//Keep playing current song.
+				if(cancionActual.repetir){
+					cancionActual.playThread.interrupt();
+					cancionActual.noRepetir();
+				}else{
+					cancionActual.repetir();
+				}
 			}
 		});
 		this.add(this.loopBoton);
+		repaint();
 		
 		
 		//Button to play random songs.
@@ -150,6 +242,17 @@ public class BarraReproduccion extends JPanel{
 		this.randomBoton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				//Keep selecting random songs to play next.
+				i = (int) (Math.random() * (queue.size()));
+				if(i > 0 ){
+					System.out.println("CANCION ALEATORIA");
+					System.out.println(i);
+					cancionActual.stop();
+					cancionActual = new Cancion(queue.get(i).rutaArchivo,queue.get(i).titulo,queue.get(i).artista,queue.get(i).album,queue.get(i).fecha,queue.get(i).duracion,queue.get(i).foto);
+					cancionActual.reproducir();
+					titlePlaying.setText(cancionActual.titulo);
+					artistPlaying.setText(cancionActual.artista);
+					repaint();
+				}
 			}
 		});
 		this.add(this.randomBoton);
@@ -199,24 +302,46 @@ public class BarraReproduccion extends JPanel{
 		this.volumeSlider = new JSlider(JSlider.HORIZONTAL,1,100,50);
 		this.volumeSlider.setBackground(new Color(253,153,255));
 		this.volumeSlider.setBounds(1100,60,200,40);
+		volumeSlider.addChangeListener(new ChangeListener() {
+			@Override
+			public void stateChanged(ChangeEvent e) {
+				float volumen =volumeSlider.getValue();
+				//System.out.println(volumen);
+				cambiarVolumen(volumen);
+			}
+		});
 		this.add(this.volumeSlider);
 		
 		
 		//Slider of current song reproduction.
-		this.playingSlider = new JSlider(JSlider.HORIZONTAL,0,100,0);
+		/**this.playingSlider = new JSlider(JSlider.HORIZONTAL,0,100,0);
 		this.playingSlider.setBackground(new Color(253,153,255));
 		this.playingSlider.setBounds(426,70,500,30);
-		this.add(this.playingSlider);
-		
-		//JLabel of title of current song. Method -> setTitleCurrent(String)
-		this.titlePlaying = new JLabel("Amor Prohibido");
+		this.playingSlider.addChangeListener(new ChangeListener() {
+			@Override
+			public void stateChanged(ChangeEvent e) {
+				while(cancionActual.playing){
+					int value = (int)(cancionActual.duracion - cancionActual.pause/playingSlider.getMaximum());
+					playingSlider.setValue(value);
+					System.out.println(value);
+				}
+			}
+		});
+		this.add(this.playingSlider);**/
+
+
+
+
+				//JLabel of title of current song. Method -> setTitleCurrent(String)
+		this.titlePlaying = new JLabel("Titulo");
 		this.titlePlaying.setBackground(new Color(253,153,255));
 		this.titlePlaying.setFont(new Font("Arial",Font.BOLD,14));
 		this.titlePlaying.setBounds(110,20,250,30);
 		this.add(this.titlePlaying);
+
 		
 		//JLabel of artist of current song. Method -> setArtistCurrent(String
-		this.artistPlaying = new JLabel("Selena");
+		this.artistPlaying = new JLabel("ARTISTA");
 		this.artistPlaying.setBackground(new Color(253,153,255));
 		this.artistPlaying.setFont(new Font("Arial",Font.BOLD,11));
 		this.artistPlaying.setBounds(110,40,250,30);
@@ -230,9 +355,10 @@ public class BarraReproduccion extends JPanel{
 		Image volumeIcon = new ImageIcon("Images/volumeBoton.PNG").getImage();
 		g.drawImage(volumeIcon,1065,65,27,27,this);
 		
-		Image ejemploIcon = new ImageIcon("Images/imagenEjemplo.PNG").getImage();
+		Image ejemploIcon = new ImageIcon("Images/InMyHeart.PNG").getImage();
 		g.drawImage(ejemploIcon,10,10,90,90,this);
 		
 	}
+	//para ordenar primero ordeno el arraylist y luego llamo a pintar cancion
 
 }
