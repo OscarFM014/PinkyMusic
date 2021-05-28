@@ -1,3 +1,5 @@
+import com.sun.jdi.ThreadGroupReference;
+import com.sun.jdi.ThreadReference;
 import javazoom.jl.decoder.JavaLayerException;
 import javazoom.jl.player.Player;
 
@@ -10,9 +12,10 @@ import java.io.*;
 import java.util.Date;
 
 public class Cancion{
+  boolean playing;
   boolean pausado = false;
   long pause;
-  int donde;
+  boolean repetir = false;
   Player player;
   Thread playThread;
   Thread resumeThread;
@@ -52,16 +55,23 @@ public class Cancion{
         if(!pausado){
             playThread.start();
             System.out.println("REPRODUCIENDO MUSICA");
+            playing = true;
         }
         else{
             resumeThread.start();
         }
 
     }
+  public void stop(){
+        if(player != null){
+            player.close();
+        }
+  }
 
   public void pausar(){
      if(player != null){
          try {
+             playing = false;
              pausado = true;
              pause=fileInputStream.available();
              player.close();
@@ -69,6 +79,16 @@ public class Cancion{
              e1.printStackTrace();
          }
      }
+  }
+  public void repetir(){
+        repetir = true;
+        while(repetir){
+            runnablePlay.run();
+        }
+
+  }
+  public void noRepetir(){
+        this.repetir = false;
   }
   public void modificarVelocidad(double nuevaVelocidad){
 
@@ -104,9 +124,9 @@ public class Cancion{
         }
     }
     };
-  public static void main(String[] args){
+  public static void main(String[] args) throws InterruptedException {
 
-        String filename = "songs/prueba.mp3";
+        String filename = "songs/prueba2.mp3";
         Cancion song = new Cancion(filename);
         song.reproducir();
         for(int i = 0; i < 10000000; i++){
@@ -114,10 +134,13 @@ public class Cancion{
         }
         System.out.println("PAUSE");
         song.pausar();
-      for(int i = 0; i < 10000000; i++){
+      for(int i = 0; i < 100000; i++){
           System.out.println(i);
       }
-      song.reproducir();
+      song.repetir();
+
+
+
   }
 
 }
