@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.*;
 import javax.swing.border.Border;
+import java.util.*;
 
 public class PanelLeft extends JPanel{
   /*private Cancion[] listaCanciones;
@@ -15,6 +16,7 @@ public class PanelLeft extends JPanel{
   private JButton cancionesB;
   private LinkedList<JButton> playlistB;*/
 
+  private ArrayList<PlayList> listaPlaylist = new ArrayList<PlayList>();
   public Image logo;
   public JButton canciones,carpeta;
   public JButton[] buttonPlaylist;
@@ -43,7 +45,7 @@ public class PanelLeft extends JPanel{
 	  this.canciones.setBounds(15,140,100,15);
 	  this.canciones.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//Pass an array with all the songs to mainPanel so it displays them all.
+			
 			}
 		});
 	  this.add(this.canciones);
